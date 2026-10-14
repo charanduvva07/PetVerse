@@ -57,7 +57,7 @@ export const notificationsController = {
       if (!token || typeof token !== 'string') {
         return res.status(400).json({ success: false, error: { message: 'FCM token is required' } });
       }
-      const { UserModel } = await import('../users/user.model.js');
+      const { UserModel } = await import('../users/user.model');
       await UserModel.findByIdAndUpdate(userId, { fcmToken: token });
       apiResponse.success(res, { registered: true });
     } catch (error) {
@@ -68,7 +68,7 @@ export const notificationsController = {
   async removeFcmToken(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = req.user?.userId!;
-      const { UserModel } = await import('../users/user.model.js');
+      const { UserModel } = await import('../users/user.model');
       await UserModel.findByIdAndUpdate(userId, { $unset: { fcmToken: 1 } });
       apiResponse.success(res, { removed: true });
     } catch (error) {
@@ -78,7 +78,7 @@ export const notificationsController = {
 
   async getDeadLetterQueue(req: Request, res: Response, next: NextFunction) {
     try {
-      const { notificationService } = await import('./services/notification.service.js');
+      const { notificationService } = await import('./services/notification.service');
       const limit = Number(req.query.limit) || 50;
       const skip = Number(req.query.skip) || 0;
       const result = await notificationService.getDeadLetterQueue(limit, skip);
@@ -90,7 +90,7 @@ export const notificationsController = {
 
   async retryDeadLetter(req: Request, res: Response, next: NextFunction) {
     try {
-      const { notificationService } = await import('./services/notification.service.js');
+      const { notificationService } = await import('./services/notification.service');
       const id = req.params.id as string;
       const channel = (req.body.channel || 'email') as any;
       const updated = await notificationService.reprocessDeadLetter(id, channel);
@@ -105,9 +105,9 @@ export const notificationsController = {
 
   async getAnalytics(_req: Request, res: Response, next: NextFunction) {
     try {
-      const { NotificationModel } = await import('./models/notification.model.js');
-      const { ReminderModel } = await import('../reminders/models/reminder.model.js');
-      const { AppointmentModel } = await import('../appointments/models/appointment.model.js');
+      const { NotificationModel } = await import('./models/notification.model');
+      const { ReminderModel } = await import('../reminders/models/reminder.model');
+      const { AppointmentModel } = await import('../appointments/models/appointment.model');
 
       const [
         totalNotifications,
