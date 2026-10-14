@@ -17,10 +17,15 @@
     "declarationMap": true,
     "sourceMap": true,
     "paths": {
-      "@petverse/shared-types": ["../../packages/shared-types/dist/index.d.ts"],
-      "@petverse/shared-constants": ["../../packages/shared-constants/dist/index.d.ts"]
+      "@petverse/shared-types": ["../../packages/shared-types/dist/index"],
+      "@petverse/shared-constants": ["../../packages/shared-constants/dist/index"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "src/**/__tests__/*", "src/**/*.test.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/__tests__/*",
+    "src/**/*.test.ts"
+  ]
 }
